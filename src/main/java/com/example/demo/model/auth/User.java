@@ -1,7 +1,5 @@
 package com.example.demo.model.auth;
 
-import com.example.demo.model.auth.Role;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,9 +15,18 @@ import javax.validation.constraints.Size;
            @UniqueConstraint(columnNames = "email")
        })
 public class User {
+
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   @NotBlank
   @Size(max = 20)
@@ -47,14 +54,6 @@ public class User {
     this.username = username;
     this.email = email;
     this.password = password;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
   }
 
   public String getUsername() {
