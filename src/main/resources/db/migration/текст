@@ -1,3 +1,5 @@
 -- id не получилось исправить. Исправляешь на уровне БД выходит ошибка на уровне secure не может запуститьса как понимаю без hibernate_sequence
 --? может попробовать сделать sequence_id на каждую таблицу и плюс оставить hibernate_sequence ?
 толку нет spring берет значение не из таблицы а из hibernate_sequence
+
+прочитать по SequenceGenerator(sequenceName="test_sequence", name="abc" )
