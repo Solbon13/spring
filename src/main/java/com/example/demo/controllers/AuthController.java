@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -17,7 +18,9 @@ import com.example.demo.payload.auth.response.UserInfoResponse;
 import com.example.demo.repository.auth.RoleRepository;
 import com.example.demo.repository.auth.UserRepository;
 import com.example.demo.security.jwt.JwtUtils;
+import com.example.demo.security.services.MailSenderService;
 import com.example.demo.security.services.UserDetailsImpl;
+import com.example.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -27,11 +30,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
 //@CrossOrigin(origins = "*", maxAge = 3600)
 //@CrossOrigin(origins = "http://localhost:4200")
@@ -41,6 +42,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
   @Autowired
   AuthenticationManager authenticationManager;
+
+  @Autowired
+  UserService userService;
 
   @Autowired
   UserRepository userRepository;
@@ -53,6 +57,9 @@ public class AuthController {
 
   @Autowired
   JwtUtils jwtUtils;
+
+  @Autowired
+  private MailSenderService mailSenderService;
 
   @PostMapping("/signin")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -123,7 +130,20 @@ public class AuthController {
     }
 
     user.setRoles(roles);
+    user.setActive(true);
+    user.setActivationCode(UUID.randomUUID().toString());
     userRepository.save(user);
+
+    if (!StringUtils.isEmpty(user.getEmail())) {
+//      пока на сервер, потом переделать на клиента(ангуляр), а она при открытии сразу кидает get запрос на сервер. наверное так
+      String message = String.format(
+              "Привет, %s\n" +
+                      "Для активации пользователя перейдите по ссылке: http://localhost:8080/activate/%s",
+              user.getUsername(),
+              user.getActivationCode()
+      );
+      mailSenderService.send(user.getEmail(), "Activated code", message);
+    }
 
     return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
   }
@@ -133,5 +153,16 @@ public class AuthController {
     ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
     return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
         .body(new MessageResponse("You've been signed out!"));
+  }
+
+  @GetMapping("/activate/{code}")
+  public String activate(
+          @PathVariable String code) {
+    boolean isActivated = userService.activateUser(code);
+
+    if (isActivated) {
+      return "User activated";
+    }
+    return "Error";
   }
 }

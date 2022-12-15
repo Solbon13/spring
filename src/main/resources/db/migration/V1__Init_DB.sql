@@ -15,12 +15,15 @@ create table user_roles
 );
 create table users
 (
-    id       int8 not null DEFAULT nextval('user_sequence'),
-    email    varchar(50),
-    password varchar(120),
-    username varchar(20),
+    id              int8 not null DEFAULT nextval('user_sequence'),
+    activation_code varchar(120),
+    active          boolean,
+    email           varchar(50),
+    password        varchar(120),
+    username        varchar(20),
     primary key (id)
 );
+
 alter table if exists users
     add constraint UKr43af9ap4edm43mmtq01oddj6 unique (username);
 alter table if exists users
