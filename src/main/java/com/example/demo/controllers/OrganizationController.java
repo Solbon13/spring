@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import com.example.demo.model.auth.User;
 import com.example.demo.model.organization.Organization;
 import com.example.demo.repository.auth.OrganizationRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -43,5 +44,16 @@ public class OrganizationController {
     ) {
         organization.setCreationDate();
         return organizationRepository.save(organization);
+    }
+
+    @PutMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Organization update(
+            @PathVariable("id") Organization organizationFromDb,
+            @RequestBody Organization organization
+    ) {
+
+        BeanUtils.copyProperties(organization, organizationFromDb, "id");
+        return organizationRepository.save(organizationFromDb);
     }
 }
