@@ -1,9 +1,9 @@
 package com.example.demo.model;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @MappedSuperclass
 public abstract class Base {
@@ -11,11 +11,23 @@ public abstract class Base {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(updatable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime creationDate;
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public LocalDateTime getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate() {
+        this.creationDate = LocalDateTime.now();
     }
 }

@@ -1,5 +1,7 @@
 package com.example.demo.model.auth;
 
+import com.example.demo.model.Base;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,102 +12,102 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "users",
-       uniqueConstraints = {
-           @UniqueConstraint(columnNames = "username"),
-           @UniqueConstraint(columnNames = "email")
-       })
-public class User {
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "username"),
+                @UniqueConstraint(columnNames = "email")
+        })
+public class User extends Base {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long id;
+//  @Id
+//  @GeneratedValue(strategy = GenerationType.AUTO)
+//  private Long id;
+//
+//  public Long getId() {
+//    return id;
+//  }
+//
+//  public void setId(Long id) {
+//    this.id = id;
+//  }
 
-  public Long getId() {
-    return id;
-  }
+    @NotBlank
+    @Size(max = 20)
+    private String username;
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+    @NotBlank
+    @Size(max = 50)
+    @Email
+    private String email;
 
-  @NotBlank
-  @Size(max = 20)
-  private String username;
+    @NotBlank
+    @Size(max = 120)
+    private String password;
 
-  @NotBlank
-  @Size(max = 50)
-  @Email
-  private String email;
+    @Size(max = 120)
+    private String activationCode;
 
-  @NotBlank
-  @Size(max = 120)
-  private String password;
+    private Boolean active;
 
-  @Size(max = 120)
-  private String activationCode;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
-  private Boolean active;
+    public User() {
+    }
 
-  @ManyToMany(fetch = FetchType.LAZY)
-  @JoinTable(name = "user_roles", 
-             joinColumns = @JoinColumn(name = "user_id"),
-             inverseJoinColumns = @JoinColumn(name = "role_id"))
-  private Set<Role> roles = new HashSet<>();
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
 
-  public User() {
-  }
+    public String getUsername() {
+        return username;
+    }
 
-  public User(String username, String email, String password) {
-    this.username = username;
-    this.email = email;
-    this.password = password;
-  }
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-  public String getUsername() {
-    return username;
-  }
+    public String getEmail() {
+        return email;
+    }
 
-  public void setUsername(String username) {
-    this.username = username;
-  }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-  public String getEmail() {
-    return email;
-  }
+    public String getPassword() {
+        return password;
+    }
 
-  public void setEmail(String email) {
-    this.email = email;
-  }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-  public String getPassword() {
-    return password;
-  }
+    public String getActivationCode() {
+        return activationCode;
+    }
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
+    }
 
-  public String getActivationCode() {
-    return activationCode;
-  }
+    public Boolean getActive() {
+        return active;
+    }
 
-  public void setActivationCode(String activationCode) {
-    this.activationCode = activationCode;
-  }
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 
-  public Boolean getActive() {
-    return active;
-  }
+    public Set<Role> getRoles() {
+        return roles;
+    }
 
-  public void setActive(Boolean active) {
-    this.active = active;
-  }
-
-  public Set<Role> getRoles() {
-    return roles;
-  }
-
-  public void setRoles(Set<Role> roles) {
-    this.roles = roles;
-  }
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 }

@@ -1,41 +1,30 @@
 package com.example.demo.model.auth;
 
+import com.example.demo.model.Base;
 import com.example.demo.model.auth.ERole;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "roles")
-public class Role {
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long id;
+public class Role extends Base {
 
-  @Enumerated(EnumType.STRING)
-  @Column(length = 20)
-  private ERole name;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private ERole name;
 
-  public Role() {
+    public Role() {
+    }
 
-  }
+    public Role(ERole name) {
+        this.name = name;
+    }
 
-  public Role(ERole name) {
-    this.name = name;
-  }
+    public ERole getName() {
+        return name;
+    }
 
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public ERole getName() {
-    return name;
-  }
-
-  public void setName(ERole name) {
-    this.name = name;
-  }
+    public void setName(ERole name) {
+        this.name = name;
+    }
 }

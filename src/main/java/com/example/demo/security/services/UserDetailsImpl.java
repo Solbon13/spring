@@ -1,5 +1,6 @@
 package com.example.demo.security.services;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -30,10 +31,12 @@ public class UserDetailsImpl implements UserDetails {
   @JsonIgnore
   private Boolean active;
 
+  private LocalDateTime creationDate;
+
   private Collection<? extends GrantedAuthority> authorities;
 
   public UserDetailsImpl(Long id, String username, String email, String password,
-      Boolean active, String activationCode,
+      Boolean active, String activationCode, LocalDateTime creationDate,
       Collection<? extends GrantedAuthority> authorities) {
     this.id = id;
     this.username = username;
@@ -41,6 +44,7 @@ public class UserDetailsImpl implements UserDetails {
     this.password = password;
     this.active = active;
     this.activationCode = activationCode;
+    this.creationDate = creationDate;
     this.authorities = authorities;
   }
 
@@ -56,6 +60,7 @@ public class UserDetailsImpl implements UserDetails {
         user.getPassword(),
         user.getActive(),
         user.getActivationCode(),
+        user.getCreationDate(),
         authorities);
   }
 
@@ -96,6 +101,14 @@ public class UserDetailsImpl implements UserDetails {
 
   public void setActive(Boolean active) {
     this.active = active;
+  }
+
+  public LocalDateTime getCreationDate() {
+    return creationDate;
+  }
+
+  public void setCreationDate(LocalDateTime creationDate) {
+    this.creationDate = creationDate;
   }
 
   @Override
