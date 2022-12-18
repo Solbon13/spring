@@ -16,6 +16,7 @@ public class Menu extends Base {
     private Organization organization;
 
     public Menu(String name, Organization organization) {
+        super();
         this.name = name;
         this.organization = organization;
     }

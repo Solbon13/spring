@@ -30,4 +30,8 @@ public abstract class Base {
     public void setCreationDate() {
         this.creationDate = LocalDateTime.now();
     }
+
+    public Base() {
+        this.creationDate = LocalDateTime.now();
+    }
 }

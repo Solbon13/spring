@@ -17,6 +17,7 @@ public class Role extends Base {
     }
 
     public Role(ERole name) {
+        super();
         this.name = name;
     }
 

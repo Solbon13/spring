@@ -9,6 +9,7 @@ public class Position extends Base {
     private String name;
 
     public Position(String name) {
+        super();
         this.name = name;
     }
 

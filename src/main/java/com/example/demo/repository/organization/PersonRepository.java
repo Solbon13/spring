@@ -1,4 +1,4 @@
-package com.example.demo.repository.auth;
+package com.example.demo.repository.organization;
 
 import com.example.demo.model.organization.Menu;
 import com.example.demo.model.organization.Person;

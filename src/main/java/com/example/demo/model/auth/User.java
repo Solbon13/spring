@@ -58,6 +58,7 @@ public class User extends Base {
     }
 
     public User(String username, String email, String password) {
+        super();
         this.username = username;
         this.email = email;
         this.password = password;

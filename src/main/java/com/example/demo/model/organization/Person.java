@@ -23,6 +23,7 @@ public class Person {
     private Position position;
 
     public Person(String fastName, String lastName, String middleName, User user, Departament departament, Position position) {
+        super();
         this.fastName = fastName;
         this.lastName = lastName;
         this.middleName = middleName;

@@ -13,6 +13,7 @@ public class Organization extends Base {
     private String name;
 
     public Organization(String name) {
+        super();
         this.name = name;
     }
 

@@ -131,8 +131,7 @@ public class AuthController {
 
     user.setRoles(roles);
     user.setActive(true);
-    user.setActivationCode(UUID.randomUUID().toString());
-    user.setCreationDate();
+    user.setActivationCode(UUID.randomUUID().toString());;
     userRepository.save(user);
 
     if (!StringUtils.isEmpty(user.getEmail())) {

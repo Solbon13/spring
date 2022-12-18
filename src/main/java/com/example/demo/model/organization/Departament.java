@@ -16,6 +16,7 @@ public class Departament extends Base {
     private Organization organization;
 
     public Departament(String name, Organization organization) {
+        super();
         this.name = name;
         this.organization = organization;
     }
