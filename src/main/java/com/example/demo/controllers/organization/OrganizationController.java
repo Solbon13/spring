@@ -1,12 +1,12 @@
-package com.example.demo.controllers;
+package com.example.demo.controllers.organization;
 
+import com.example.demo.dto.organization.request.OrganizationRequest;
 import com.example.demo.model.auth.User;
 import com.example.demo.model.organization.Organization;
-import com.example.demo.repository.organization.OrganizationRepository;
-import com.example.demo.services.OrganizationService;
-import org.springframework.beans.BeanUtils;
+import com.example.demo.services.organization.OrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -40,28 +40,31 @@ public class OrganizationController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public Organization create(
-            @RequestBody Organization organization,
+    public ResponseEntity create(
+            @RequestBody OrganizationRequest organizationRequest,
             @AuthenticationPrincipal User user
     ) {
-        return organizationService.create(organization);
+        return organizationService.create(organizationRequest);
     }
 
     @PutMapping("{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public Organization update(
             @PathVariable("id") Organization organizationFromDb,
-            @RequestBody Organization organization
+            @RequestBody Organization organization,
+            @PathVariable Long id
     ) {
-        return organizationService.update(organization, organizationFromDb, Long.valueOf("id"));
+        return organizationService.update(organization, organizationFromDb, Long.valueOf(id));
     }
 
     @DeleteMapping("{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(
-            @PathVariable("id") Organization organizationFromDb
+            @PathVariable("id") Organization organizationFromDb,
+            @PathVariable Long id
     ) {
-        organizationService.delete(organizationFromDb, Long.valueOf("id"));
+        System.out.println(id);
+        organizationService.delete(organizationFromDb, Long.valueOf(id));
     }
 }

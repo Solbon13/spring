@@ -1,4 +1,4 @@
-package com.example.demo.payload.auth.request;
+package com.example.demo.dto.auth.request;
 
 import java.util.Set;
 

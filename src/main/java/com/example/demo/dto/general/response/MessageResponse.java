@@ -1,4 +1,4 @@
-package com.example.demo.payload.auth.response;
+package com.example.demo.dto.general.response;
 
 public class MessageResponse {
 	private String message;

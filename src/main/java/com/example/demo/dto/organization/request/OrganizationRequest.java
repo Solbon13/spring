@@ -1,4 +1,4 @@
-package com.example.demo.payload.organization.request;
+package com.example.demo.dto.organization.request;
 
 import javax.validation.constraints.NotBlank;
 

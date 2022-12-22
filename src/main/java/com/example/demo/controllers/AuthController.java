@@ -11,10 +11,10 @@ import javax.validation.Valid;
 import com.example.demo.model.auth.ERole;
 import com.example.demo.model.auth.Role;
 import com.example.demo.model.auth.User;
-import com.example.demo.payload.auth.request.LoginRequest;
-import com.example.demo.payload.auth.request.SignupRequest;
-import com.example.demo.payload.auth.response.MessageResponse;
-import com.example.demo.payload.auth.response.UserInfoResponse;
+import com.example.demo.dto.auth.request.LoginRequest;
+import com.example.demo.dto.auth.request.SignupRequest;
+import com.example.demo.dto.general.response.MessageResponse;
+import com.example.demo.dto.auth.response.UserInfoResponse;
 import com.example.demo.repository.auth.RoleRepository;
 import com.example.demo.repository.auth.UserRepository;
 import com.example.demo.security.jwt.JwtUtils;
@@ -30,7 +30,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 

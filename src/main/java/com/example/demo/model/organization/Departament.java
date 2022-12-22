@@ -15,10 +15,9 @@ public class Departament extends Base {
     @JoinColumn(name = "org_id")
     private Organization organization;
 
-    public Departament(String name, Organization organization) {
+    public Departament(String name) {
         super();
         this.name = name;
-        this.organization = organization;
     }
 
     public Departament() {

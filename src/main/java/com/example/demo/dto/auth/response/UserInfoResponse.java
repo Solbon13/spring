@@ -1,4 +1,4 @@
-package com.example.demo.payload.auth.response;
+package com.example.demo.dto.auth.response;
 
 import java.util.List;
 
