@@ -3,33 +3,33 @@ create sequence user_sequence start 1 increment 1;
 create sequence hibernate_sequence start 5 increment 1;
 create table departament
 (
-    id     int8 not null,
+    id            int8 not null,
     creation_date timestamp,
-    name   varchar(255),
-    org_id int8,
+    deleted       boolean,
+    name          varchar(255),
+    org_id        int8,
     primary key (id)
 );
-create table menu
+create table menuSite
 (
-    id     int8 not null,
+    id            int8 not null,
     creation_date timestamp,
-    name   varchar(255),
-    org_id int8,
+    deleted       boolean,
+    name          varchar(255),
+    org_id        int8,
     primary key (id)
 );
-
 create table organization
 (
-    id   int8 not null,
+    id            int8 not null,
     creation_date timestamp,
-    name varchar(200),
+    deleted       boolean,
+    name          varchar(200),
     primary key (id)
 );
-
 create table person
 (
     id             int8 not null,
-    creation_date timestamp,
     fast_name      varchar(255),
     last_name      varchar(255),
     middle_name    varchar(255),
@@ -37,19 +37,20 @@ create table person
     position_id    int8,
     primary key (id)
 );
-
 create table position
 (
-    id   int8 not null,
+    id            int8 not null,
     creation_date timestamp,
-    name varchar(255),
+    deleted       boolean,
+    name          varchar(255),
     primary key (id)
 );
 create table roles
 (
-    id   int8 not null DEFAULT nextval('role_sequence'),
+    id            int8 not null DEFAULT nextval('role_sequence'),
     creation_date timestamp,
-    name varchar(20),
+    deleted       boolean,
+    name          varchar(20),
     primary key (id)
 );
 create table user_roles
@@ -61,7 +62,8 @@ create table user_roles
 create table users
 (
     id              int8 not null DEFAULT nextval('user_sequence'),
-    creation_date timestamp,
+    creation_date   timestamp,
+    deleted         boolean,
     activation_code varchar(120),
     active          boolean,
     email           varchar(50),
@@ -69,11 +71,9 @@ create table users
     username        varchar(20),
     primary key (id)
 );
-
 alter table if exists users add constraint users_username_u unique (username);
-alter table if exists users add constraint users_email_u unique (email);
 alter table if exists departament add constraint departament_organization_fk foreign key (org_id) references organization;
-alter table if exists menu add constraint menu_organization_fk foreign key (org_id) references organization;
+alter table if exists menuSite add constraint menu_organization_fk foreign key (org_id) references organization;
 alter table if exists person add constraint person_departament_fk foreign key (departament_id) references departament;
 alter table if exists person add constraint person_position_fk foreign key (position_id) references position;
 alter table if exists person add constraint person_users_fk foreign key (id) references users;

@@ -25,7 +25,7 @@ public class OrganizationController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('LOCAL_ADMIN') or hasRole('ADMIN')")
     public List<Organization> getList() {
         return organizationService.getList();
     }
@@ -48,7 +48,7 @@ public class OrganizationController {
     }
 
     @PutMapping("{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('LOCAL_ADMIN') or hasRole('ADMIN')")
     public Organization update(
             @PathVariable("id") Organization organizationFromDb,
             @RequestBody Organization organization,

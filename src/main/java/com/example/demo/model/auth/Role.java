@@ -1,7 +1,6 @@
 package com.example.demo.model.auth;
 
 import com.example.demo.model.Base;
-import com.example.demo.model.auth.ERole;
 
 import javax.persistence.*;
 

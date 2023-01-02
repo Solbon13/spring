@@ -31,7 +31,7 @@ public class DepartamentService {
     public ResponseEntity create(DepartamentRequest departamentRequest) {
 
         Organization organization = organizationRepository.findById(departamentRequest.getOrg_id())
-                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                .orElseThrow(() -> new RuntimeException("Ошибка: Организации нет."));
 
         Departament departament = new Departament(departamentRequest.getName());
         departament.setOrganization(organization);

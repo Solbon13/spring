@@ -4,16 +4,7 @@ import java.util.List;
 
 public class OrganizationResponse {
 	private Long id;
-	private String username;
-	private String email;
-	private List<String> roles;
-
-	public OrganizationResponse(Long id, String username, String email, List<String> roles) {
-		this.id = id;
-		this.username = username;
-		this.email = email;
-		this.roles = roles;
-	}
+	private String name;
 
 	public Long getId() {
 		return id;
@@ -23,23 +14,11 @@ public class OrganizationResponse {
 		this.id = id;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getName() {
+		return name;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public List<String> getRoles() {
-		return roles;
+	public void setName(String name) {
+		this.name = name;
 	}
 }
