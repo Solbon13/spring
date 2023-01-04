@@ -35,16 +35,22 @@ public class DepartamentService {
 
         Departament departament = new Departament(departamentRequest.getName());
         departament.setOrganization(organization);
+        System.out.println(departament);
         departamentRepository.save(departament);
 
         return ResponseEntity.ok(new MessageResponse("Отдел добавлен!"));
     }
 
-    public Departament update(Departament departament, Departament departamentFromDb, Long id) {
+    public Departament update(DepartamentRequest departamentRequest, Departament departamentFromDb, Long id) {
         if (!departamentRepository.existsById(id)) {
             throw new NotFoundException(id);
         }
-        BeanUtils.copyProperties(departament, departamentFromDb, "id");
+        if (departamentFromDb.getId() == id) {
+            Organization organization = organizationRepository.findById(departamentRequest.getOrg_id())
+                    .orElseThrow(() -> new RuntimeException("Ошибка: Организации нет."));
+            departamentFromDb.setOrganization(organization);
+            departamentFromDb.setName(departamentRequest.getName());
+        }
         return departamentRepository.save(departamentFromDb);
     }
 

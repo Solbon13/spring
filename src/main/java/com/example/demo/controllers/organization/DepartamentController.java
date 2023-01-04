@@ -47,10 +47,10 @@ public class DepartamentController {
     @PreAuthorize("hasRole('LOCAL_ADMIN') or hasRole('ADMIN')")
     public Departament update (
             @PathVariable("id") Departament departamentFromDb,
-            @RequestBody Departament departament,
+            @RequestBody DepartamentRequest departamentRequest,
             @PathVariable Long id
     ) {
-        return departamentService.update(departament, departamentFromDb, Long.valueOf(id));
+        return departamentService.update(departamentRequest, departamentFromDb, Long.valueOf(id));
     };
 
     @DeleteMapping("{id}")

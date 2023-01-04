@@ -2,6 +2,9 @@ package com.example.demo.model.auth;
 
 import com.example.demo.model.Base;
 import com.example.demo.model.organization.Person;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -36,14 +39,31 @@ public class User extends Base {
 
     private Boolean active;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-//    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
-//    private Person person;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private Person person;
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        if (person == null) {
+            if (this.person != null) {
+                this.person.setUser(null);
+            }
+        }
+        else {
+            person.setUser(this);
+        }
+        this.person = person;
+    }
 
     public User() {
     }

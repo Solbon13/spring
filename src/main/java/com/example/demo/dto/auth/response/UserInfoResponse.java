@@ -1,6 +1,9 @@
 package com.example.demo.dto.auth.response;
 
+import com.example.demo.model.auth.User;
+
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserInfoResponse {
 	private Long id;
@@ -14,6 +17,17 @@ public class UserInfoResponse {
 		this.email = email;
 		this.roles = roles;
 	}
+
+	public UserInfoResponse(User user) {
+		this.id = user.getId();
+		this.username = user.getUsername();
+		this.email = user.getEmail();
+		List<String> roles = user.getRoles().stream()
+				.map(item -> item.getName().toString())
+				.collect(Collectors.toList());
+		this.roles = roles;
+	}
+
 
 	public Long getId() {
 		return id;

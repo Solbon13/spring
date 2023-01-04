@@ -2,7 +2,10 @@ package com.example.demo.controllers.organization;
 
 import com.example.demo.dto.auth.request.LoginRequest;
 import com.example.demo.dto.auth.request.SignupRequest;
+import com.example.demo.dto.auth.response.UserInfoResponse;
+import com.example.demo.dto.organization.request.PersonRequest;
 import com.example.demo.model.auth.User;
+import com.example.demo.repository.auth.UserRepository;
 import com.example.demo.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
@@ -26,6 +30,7 @@ public class UserController {
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('LOCAL_ADMIN') or hasRole('ADMIN')")
     public List<User> getList() {
         return userService.getList();
+//        return userService.getList().stream().map(UserInfoResponse::new).collect(Collectors.toList());
     }
 
     @GetMapping("{id}")
@@ -39,19 +44,19 @@ public class UserController {
     @PostMapping
     @PreAuthorize("hasRole('LOCAL_ADMIN') or hasRole('ADMIN')")
     public ResponseEntity<?> create(
-            @Valid @RequestBody SignupRequest signUpRequest
+            @Valid @RequestBody PersonRequest personRequest
     ) {
-        return  userService.create(signUpRequest);
+        return  userService.create(personRequest);
     }
 
     @PutMapping("{id}")
     @PreAuthorize("hasRole('LOCAL_ADMIN') or hasRole('ADMIN')")
     public User update (
             @PathVariable("id") User userFromDb,
-            @RequestBody User user,
+            @RequestBody PersonRequest personRequest,
             @PathVariable Long id
     ) {
-        return userService.update(user, userFromDb, Long.valueOf(id));
+        return userService.update(personRequest, userFromDb, Long.valueOf(id));
     };
 
     @PutMapping("/profile/{id}")

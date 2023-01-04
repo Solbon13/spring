@@ -40,11 +40,16 @@ public class MenuSiteService {
         return ResponseEntity.ok(new MessageResponse("Меню сайта добавлен!"));
     }
 
-    public MenuSite update(MenuSite menuSite, MenuSite menuSiteFromDb, Long id) {
+    public MenuSite update(MenuSiteRequest menuSiteRequest, MenuSite menuSiteFromDb, Long id) {
         if (!menuSiteRepository.existsById(id)) {
             throw new NotFoundException(id);
         }
-        BeanUtils.copyProperties(menuSite, menuSiteFromDb, "id");
+        if (menuSiteFromDb.getId() == id) {
+            Organization organization = organizationRepository.findById(menuSiteRequest.getOrg_id())
+                    .orElseThrow(() -> new RuntimeException("Ошибка: Организации нет."));
+            menuSiteFromDb.setOrganization(organization);
+            menuSiteFromDb.setName(menuSiteRequest.getName());
+        }
         return menuSiteRepository.save(menuSiteFromDb);
     }
 

@@ -10,7 +10,7 @@ create table departament
     org_id        int8,
     primary key (id)
 );
-create table menuSite
+create table menu_site
 (
     id            int8 not null,
     creation_date timestamp,

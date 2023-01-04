@@ -47,10 +47,10 @@ public class MenuSiteController {
     @PreAuthorize("hasRole('MODERATOR') or hasRole('LOCAL_ADMIN') or hasRole('ADMIN')")
     public MenuSite update (
             @PathVariable("id") MenuSite menuSiteFromDb,
-            @RequestBody MenuSite menuSite,
+            @RequestBody MenuSiteRequest menuSiteRequest,
             @PathVariable Long id
     ) {
-        return menuSiteService.update(menuSite, menuSiteFromDb, Long.valueOf(id));
+        return menuSiteService.update(menuSiteRequest, menuSiteFromDb, Long.valueOf(id));
     };
 
     @DeleteMapping("{id}")

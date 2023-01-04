@@ -1,22 +1,61 @@
 package com.example.demo.dto.organization.request;
 
 import javax.validation.constraints.NotBlank;
+import java.util.Set;
 
 public class PersonRequest {
 	private Long id;
+	@NotBlank
+	private String username;
+	@NotBlank
+	private String email;
+	private String password;
 	@NotBlank
 	private String fastName;
 	@NotBlank
 	private String lastName;
 	@NotBlank
 	private String middleName;
-	@NotBlank
+
 	private Long departament_id;
-	@NotBlank
+
 	private Long position_id;
+	private Set<String> role;
 
 	public Long getId() {
 		return id;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Set<String> getRole() {
+		return role;
+	}
+
+	public void setRole(Set<String> role) {
+		this.role = role;
 	}
 
 	public void setId(Long id) {
