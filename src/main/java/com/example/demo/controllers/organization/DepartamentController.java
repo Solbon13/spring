@@ -22,13 +22,13 @@ public class DepartamentController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('LOCAL_ADMIN') or hasRole('ADMIN')")
     public List<Departament> getList() {
         return departamentService.getList();
     }
 
     @GetMapping("{id}")
-    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('LOCAL_ADMIN') or hasRole('ADMIN')")
     public Departament getOne(
             @PathVariable("id") Departament departament
     ) {
@@ -36,7 +36,7 @@ public class DepartamentController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('LOCAL_ADMIN') or hasRole('ADMIN')")
     public ResponseEntity create(
             @RequestBody DepartamentRequest departamentRequest
     ) {
@@ -44,17 +44,17 @@ public class DepartamentController {
     }
 
     @PutMapping("{id}")
-    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('LOCAL_ADMIN') or hasRole('ADMIN')")
     public Departament update (
             @PathVariable("id") Departament departamentFromDb,
-            @RequestBody Departament departament,
+            @RequestBody DepartamentRequest departamentRequest,
             @PathVariable Long id
     ) {
-        return departamentService.update(departament, departamentFromDb, Long.valueOf(id));
+        return departamentService.update(departamentRequest, departamentFromDb, Long.valueOf(id));
     };
 
     @DeleteMapping("{id}")
-    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('LOCAL_ADMIN') or hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(
             @PathVariable("id") Departament departamentFromDb,

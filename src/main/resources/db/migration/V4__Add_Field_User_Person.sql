@@ -1,0 +1,1 @@
+ALTER TABLE users ADD COLUMN person_id int8;

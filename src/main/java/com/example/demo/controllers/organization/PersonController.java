@@ -2,7 +2,8 @@ package com.example.demo.controllers.organization;
 
 import com.example.demo.model.organization.Departament;
 import com.example.demo.model.organization.Menu;
-import com.example.demo.services.organization.MenuService;
+import com.example.demo.model.organization.Person;
+import com.example.demo.services.organization.PersonService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -11,53 +12,53 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
-@RequestMapping("/api/menu")
-public class MenuController {
-    private final MenuService menuService;
+@RequestMapping("/api/person")
+public class PersonController {
+    private final PersonService personService;
 
-    public MenuController(MenuService menuService) {
-        this.menuService = menuService;
+    public PersonController(PersonService personService) {
+        this.personService = personService;
     }
 
     @GetMapping
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public List<Menu> getList() {
-        return menuService.getList();
+    public List<Person> getList() {
+        return personService.getList();
     }
 
     @GetMapping("{id}")
     @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
-    public Menu getOne(
-            @PathVariable("id") Menu menu
+    public Person getOne(
+            @PathVariable("id") Person person
     ) {
-        return menu;
+        return person;
     }
 
     @PostMapping
     @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
-    public Menu create(
-            @RequestBody Menu menu
+    public Person create(
+            @RequestBody Person person
     ) {
-        return  menuService.create(menu);
+        return  personService.create(person);
     }
 
     @PutMapping("{id}")
     @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
-    public Menu update (
-            @PathVariable("id") Menu menuFromDb,
-            @RequestBody Menu menu,
+    public Person update (
+            @PathVariable("id") Person personFromDb,
+            @RequestBody Person person,
             @PathVariable Long id
     ) {
-        return menuService.update(menu, menuFromDb, Long.valueOf(id));
+        return personService.update(person, personFromDb, Long.valueOf(id));
     };
 
     @DeleteMapping("{id}")
     @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(
-            @PathVariable("id") Menu menuFromDb,
+            @PathVariable("id") Person personFromDb,
             @PathVariable Long id
     ) {
-        menuService.delete(menuFromDb, Long.valueOf(id));
+        personService.delete(personFromDb, Long.valueOf(id));
     }
 }

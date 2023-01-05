@@ -2,6 +2,8 @@ package com.example.demo.model.organization;
 
 import com.example.demo.model.Base;
 import com.example.demo.model.auth.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 
@@ -13,13 +15,14 @@ public class Person {
     private String fastName;
     private String lastName;
     private String middleName;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @MapsId
     @JoinColumn(name = "id")
+    @JsonBackReference
     private User user;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     private Departament departament;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     private Position position;
 
     public Person(String fastName, String lastName, String middleName, User user, Departament departament, Position position) {

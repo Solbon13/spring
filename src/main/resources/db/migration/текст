@@ -3,3 +3,21 @@
 толку нет spring берет значение не из таблицы а из hibernate_sequence
 
 прочитать по SequenceGenerator(sequenceName="test_sequence", name="abc" )
+
+Hibernate: create sequence hibernate_sequence start 1 increment 1
+Hibernate: create table departament (id int8 not null, creation_date timestamp, deleted boolean, name varchar(255), org_id int8, primary key (id))
+Hibernate: create table menu_site (id int8 not null, creation_date timestamp, deleted boolean, name varchar(255), org_id int8, primary key (id))
+Hibernate: create table organization (id int8 not null, creation_date timestamp, deleted boolean, name varchar(200), primary key (id))
+Hibernate: create table person (id int8 not null, fast_name varchar(255), last_name varchar(255), middle_name varchar(255), departament_id int8, position_id int8, primary key (id))
+Hibernate: create table position (id int8 not null, creation_date timestamp, deleted boolean, name varchar(255), primary key (id))
+Hibernate: create table roles (id int8 not null, creation_date timestamp, deleted boolean, name varchar(20), primary key (id))
+Hibernate: create table user_roles (user_id int8 not null, role_id int8 not null, primary key (user_id, role_id))
+Hibernate: create table users (id int8 not null, creation_date timestamp, deleted boolean, activation_code varchar(120), active boolean, email varchar(50), password varchar(120), username varchar(20), primary key (id))
+Hibernate: alter table if exists users add constraint UKr43af9ap4edm43mmtq01oddj6 unique (username)
+Hibernate: alter table if exists departament add constraint FKq0w73nmff7sjq4r2guy3fgx01 foreign key (org_id) references organization
+Hibernate: alter table if exists menu_site add constraint FK6usfauff0e4sw6aogpoxg8i68 foreign key (org_id) references organization
+Hibernate: alter table if exists person add constraint FKj191bunotbpm61i553wy9m4kn foreign key (departament_id) references departament
+Hibernate: alter table if exists person add constraint FK4i8om42npv2vi0wm6xut2djxr foreign key (position_id) references position
+Hibernate: alter table if exists person add constraint FKt9eifwfaty2datnx2ra7ll9dc foreign key (id) references users
+Hibernate: alter table if exists user_roles add constraint FKh8ciramu9cc9q3qcqiv4ue8a6 foreign key (role_id) references roles
+Hibernate: alter table if exists user_roles add constraint FKhfh9dx7w3ubf1co1vdev94g3f foreign key (user_id) references users

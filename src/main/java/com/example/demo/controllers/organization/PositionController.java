@@ -20,13 +20,13 @@ public class PositionController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('LOCAL_ADMIN') or hasRole('ADMIN')")
     public List<Position> getList() {
         return positionService.getList();
     }
 
     @GetMapping("{id}")
-    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('LOCAL_ADMIN') or hasRole('ADMIN')")
     public Position getOne(
             @PathVariable("id") Position position
     ) {
@@ -34,7 +34,7 @@ public class PositionController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('LOCAL_ADMIN') or hasRole('ADMIN')")
     public Position create(
             @RequestBody Position position
     ) {
@@ -42,7 +42,7 @@ public class PositionController {
     }
 
     @PutMapping("{id}")
-    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('LOCAL_ADMIN') or hasRole('ADMIN')")
     public Position update (
             @PathVariable("id") Position positionFromDb,
             @RequestBody Position position,
@@ -52,7 +52,7 @@ public class PositionController {
     };
 
     @DeleteMapping("{id}")
-    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('LOCAL_ADMIN') or hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(
             @PathVariable("id") Position positionFromDb,

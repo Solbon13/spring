@@ -15,6 +15,8 @@ public abstract class Base {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime creationDate;
 
+    private Boolean deleted;
+
     public Long getId() {
         return id;
     }
@@ -33,5 +35,6 @@ public abstract class Base {
 
     public Base() {
         this.creationDate = LocalDateTime.now();
+        this.deleted = false;
     }
 }
