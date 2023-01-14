@@ -35,7 +35,7 @@ public class PersonService {
         return personRepository.findAll();
     }
 
-    public Person create(PersonRequest personRequest) {
+    public ResponseEntity<MessageResponse> create(PersonRequest personRequest) {
         Departament departament = departamentRepository.findById(personRequest.getDepartament_id())
                 .orElseThrow(() -> new RuntimeException("Ошибка: Отдела нет."));
         Position position = positionRepository.findById(personRequest.getPosition_id())
@@ -44,14 +44,15 @@ public class PersonService {
                 .orElseThrow(() -> new RuntimeException("Ошибка: Пользователя нет."));
 
         Person person = new Person(
-                personRequest.getFastName(),
+                personRequest.getFirstName(),
                 personRequest.getLastName(),
                 personRequest.getMiddleName(),
                 user,
                 departament,
                 position
         );
-        return personRepository.save(person);
+        personRepository.save(person);
+        return ResponseEntity.ok(new MessageResponse("Сотрудник добавлен!"));
     }
 
     public ResponseEntity<MessageResponse> update(Person person, Person personFromDb, Long id) {
@@ -60,7 +61,7 @@ public class PersonService {
         }
         BeanUtils.copyProperties(person, personFromDb, "id");
         personRepository.save(personFromDb);
-        return ResponseEntity.ok(new MessageResponse("Данные изменены!"));
+        return ResponseEntity.ok(new MessageResponse("Данные сотрудника изменены!"));
     }
 
     public void delete(Person personFromDb, Long id) {

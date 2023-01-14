@@ -1,9 +1,10 @@
 package com.example.demo.controllers.organization;
 
-import com.example.demo.model.organization.Departament;
+import com.example.demo.dto.general.response.MessageResponse;
 import com.example.demo.model.organization.Position;
 import com.example.demo.services.organization.PositionService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +36,7 @@ public class PositionController {
 
     @PostMapping
     @PreAuthorize("hasRole('LOCAL_ADMIN') or hasRole('ADMIN')")
-    public Position create(
+    public ResponseEntity<MessageResponse> create(
             @RequestBody Position position
     ) {
         return  positionService.create(position);
@@ -43,7 +44,7 @@ public class PositionController {
 
     @PutMapping("{id}")
     @PreAuthorize("hasRole('LOCAL_ADMIN') or hasRole('ADMIN')")
-    public Position update (
+    public ResponseEntity<MessageResponse> update (
             @PathVariable("id") Position positionFromDb,
             @RequestBody Position position,
             @PathVariable Long id

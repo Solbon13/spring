@@ -143,7 +143,7 @@ public class UserService {
 
 
         Person person = new Person(
-                personRequest.getFastName(),
+                personRequest.getFirstName(),
                 personRequest.getLastName(),
                 personRequest.getMiddleName(),
                 user,
@@ -202,18 +202,23 @@ public class UserService {
         }
 
         userFromDb.setRoles(roles);
-        userRepository.save(userFromDb);
 
-        Person person = userFromDb.getPerson();
+        System.out.println("new person");
+        Person person = personRepository.findById(personRequest.getId())
+                .orElseGet(() -> new Person());
+        System.out.println("new departament");
         Departament departament = departamentRepository.findById(personRequest.getDepartament_id())
                 .orElseThrow(() -> new RuntimeException("Ошибка: Отдела нет."));
+        System.out.println("new position");
         Position position = positionRepository.findById(personRequest.getPosition_id())
                 .orElseThrow(() -> new RuntimeException("Ошибка: Должности нет."));
+        System.out.println("person");
+        person.setId(userFromDb.getId());
         person.setDepartament(departament);
         person.setPosition(position);
-        person.setFastName(person.getFastName());
-        person.setLastName(person.getLastName());
-        person.setMiddleName(person.getMiddleName());
+        person.setFirstName(personRequest.getFirstName());
+        person.setLastName(personRequest.getLastName());
+        person.setMiddleName(personRequest.getMiddleName());
         personRepository.save(person);
 
         return userRepository.save(userFromDb);

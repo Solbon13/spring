@@ -36,12 +36,13 @@ public class OrganizationService {
         return ResponseEntity.ok(new MessageResponse("Организация добавлена!"));
     }
 
-    public Organization update(Organization organization, Organization organizationFromDb, Long id) {
+    public ResponseEntity<MessageResponse> update(Organization organization, Organization organizationFromDb, Long id) {
         if (!organizationRepository.existsById(id)) {
             throw new NotFoundException(id);
         }
         BeanUtils.copyProperties(organization, organizationFromDb, "id");
-        return organizationRepository.save(organizationFromDb);
+        organizationRepository.save(organizationFromDb);
+        return ResponseEntity.ok(new MessageResponse("Организация изменена!"));
     }
 
     public void delete(Organization organizationFromDb, Long id) {

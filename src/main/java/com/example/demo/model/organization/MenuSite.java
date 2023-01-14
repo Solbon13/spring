@@ -1,12 +1,14 @@
 package com.example.demo.model.organization;
 
 import com.example.demo.model.Base;
+import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
+@Data
 public class MenuSite extends Base {
     private String name;
 
@@ -23,19 +25,4 @@ public class MenuSite extends Base {
     public MenuSite() {
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Organization getOrganization() {
-        return organization;
-    }
-
-    public void setOrganization(Organization organization) {
-        this.organization = organization;
-    }
 }

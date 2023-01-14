@@ -1,5 +1,6 @@
 package com.example.demo.controllers.organization;
 
+import com.example.demo.dto.general.response.MessageResponse;
 import com.example.demo.dto.organization.request.OrganizationRequest;
 import com.example.demo.model.auth.User;
 import com.example.demo.model.organization.Organization;
@@ -49,7 +50,7 @@ public class OrganizationController {
 
     @PutMapping("{id}")
     @PreAuthorize("hasRole('LOCAL_ADMIN') or hasRole('ADMIN')")
-    public Organization update(
+    public ResponseEntity<MessageResponse> update(
             @PathVariable("id") Organization organizationFromDb,
             @RequestBody Organization organization,
             @PathVariable Long id

@@ -1,4 +1,4 @@
-package com.example.demo.model.organization;
+package com.example.demo.model.tasks;
 
 import com.example.demo.model.Base;
 import lombok.Data;
@@ -7,15 +7,15 @@ import javax.persistence.Entity;
 
 @Entity
 @Data
-public class Position extends Base {
+public class TypeTask extends Base {
     private String name;
 
-    public Position(String name) {
+    public TypeTask(String name) {
         super();
         this.name = name;
     }
 
-    public Position() {
+    public TypeTask() {
     }
 
 }

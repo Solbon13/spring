@@ -1,10 +1,11 @@
 package com.example.demo.controllers.organization;
 
-import com.example.demo.model.organization.Departament;
-import com.example.demo.model.organization.Menu;
+import com.example.demo.dto.general.response.MessageResponse;
+import com.example.demo.dto.organization.request.PersonRequest;
 import com.example.demo.model.organization.Person;
 import com.example.demo.services.organization.PersonService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,21 +37,21 @@ public class PersonController {
 
     @PostMapping
     @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
-    public Person create(
-            @RequestBody Person person
+    public ResponseEntity<MessageResponse> create(
+            @RequestBody PersonRequest person
     ) {
         return  personService.create(person);
     }
 
     @PutMapping("{id}")
     @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
-    public Person update (
+    public ResponseEntity<MessageResponse> update (
             @PathVariable("id") Person personFromDb,
             @RequestBody Person person,
             @PathVariable Long id
     ) {
         return personService.update(person, personFromDb, Long.valueOf(id));
-    };
+    }
 
     @DeleteMapping("{id}")
     @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")

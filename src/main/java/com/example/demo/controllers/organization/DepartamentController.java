@@ -45,7 +45,7 @@ public class DepartamentController {
 
     @PutMapping("{id}")
     @PreAuthorize("hasRole('LOCAL_ADMIN') or hasRole('ADMIN')")
-    public Departament update (
+    public ResponseEntity update (
             @PathVariable("id") Departament departamentFromDb,
             @RequestBody DepartamentRequest departamentRequest,
             @PathVariable Long id

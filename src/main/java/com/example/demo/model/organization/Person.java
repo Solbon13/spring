@@ -4,15 +4,17 @@ import com.example.demo.model.Base;
 import com.example.demo.model.auth.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity
+@Data
 public class Person {
 
     @Id
     private long id;
-    private String fastName;
+    private String firstName;
     private String lastName;
     private String middleName;
     @OneToOne(fetch = FetchType.EAGER)
@@ -25,9 +27,9 @@ public class Person {
     @OneToOne(fetch = FetchType.EAGER)
     private Position position;
 
-    public Person(String fastName, String lastName, String middleName, User user, Departament departament, Position position) {
+    public Person(String firstName, String lastName, String middleName, User user, Departament departament, Position position) {
         super();
-        this.fastName = fastName;
+        this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
         this.user = user;
@@ -38,59 +40,4 @@ public class Person {
     public Person() {
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getFastName() {
-        return fastName;
-    }
-
-    public void setFastName(String fastName) {
-        this.fastName = fastName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Departament getDepartament() {
-        return departament;
-    }
-
-    public void setDepartament(Departament departament) {
-        this.departament = departament;
-    }
-
-    public Position getPosition() {
-        return position;
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
-    }
 }

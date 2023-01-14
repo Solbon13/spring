@@ -7,7 +7,6 @@ import com.example.demo.model.organization.MenuSite;
 import com.example.demo.model.organization.Organization;
 import com.example.demo.repository.organization.MenuSiteRepository;
 import com.example.demo.repository.organization.OrganizationRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +39,7 @@ public class MenuSiteService {
         return ResponseEntity.ok(new MessageResponse("Меню сайта добавлен!"));
     }
 
-    public MenuSite update(MenuSiteRequest menuSiteRequest, MenuSite menuSiteFromDb, Long id) {
+    public ResponseEntity<MessageResponse> update(MenuSiteRequest menuSiteRequest, MenuSite menuSiteFromDb, Long id) {
         if (!menuSiteRepository.existsById(id)) {
             throw new NotFoundException(id);
         }
@@ -50,7 +49,8 @@ public class MenuSiteService {
             menuSiteFromDb.setOrganization(organization);
             menuSiteFromDb.setName(menuSiteRequest.getName());
         }
-        return menuSiteRepository.save(menuSiteFromDb);
+        menuSiteRepository.save(menuSiteFromDb);
+        return ResponseEntity.ok(new MessageResponse("Меню сайта изменена!"));
     }
 
     public void delete(MenuSite menuSiteFromDb, Long id) {

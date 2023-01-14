@@ -41,7 +41,7 @@ public class DepartamentService {
         return ResponseEntity.ok(new MessageResponse("Отдел добавлен!"));
     }
 
-    public Departament update(DepartamentRequest departamentRequest, Departament departamentFromDb, Long id) {
+    public ResponseEntity update(DepartamentRequest departamentRequest, Departament departamentFromDb, Long id) {
         if (!departamentRepository.existsById(id)) {
             throw new NotFoundException(id);
         }
@@ -51,7 +51,8 @@ public class DepartamentService {
             departamentFromDb.setOrganization(organization);
             departamentFromDb.setName(departamentRequest.getName());
         }
-        return departamentRepository.save(departamentFromDb);
+        departamentRepository.save(departamentFromDb);
+        return ResponseEntity.ok(new MessageResponse("Отдел изменен!"));
     }
 
     public void delete(Departament departamentFromDb, Long id) {

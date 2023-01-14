@@ -45,7 +45,7 @@ public class MenuSiteController {
 
     @PutMapping("{id}")
     @PreAuthorize("hasRole('MODERATOR') or hasRole('LOCAL_ADMIN') or hasRole('ADMIN')")
-    public MenuSite update (
+    public ResponseEntity<MessageResponse> update (
             @PathVariable("id") MenuSite menuSiteFromDb,
             @RequestBody MenuSiteRequest menuSiteRequest,
             @PathVariable Long id

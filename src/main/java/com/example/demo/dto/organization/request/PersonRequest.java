@@ -11,7 +11,7 @@ public class PersonRequest {
 	private String email;
 	private String password;
 	@NotBlank
-	private String fastName;
+	private String firstName;
 	@NotBlank
 	private String lastName;
 	@NotBlank
@@ -62,12 +62,12 @@ public class PersonRequest {
 		this.id = id;
 	}
 
-	public String getFastName() {
-		return fastName;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setFastName(String fastName) {
-		this.fastName = fastName;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
 	public String getLastName() {
