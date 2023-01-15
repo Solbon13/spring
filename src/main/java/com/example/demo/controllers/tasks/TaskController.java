@@ -3,13 +3,12 @@ package com.example.demo.controllers.tasks;
 import com.example.demo.dto.general.response.MessageResponse;
 import com.example.demo.dto.task.request.TaskRequest;
 import com.example.demo.model.auth.User;
-import com.example.demo.model.organization.Person;
 import com.example.demo.model.tasks.Task;
-import com.example.demo.model.tasks.TypeTask;
+import com.example.demo.security.services.UserDetailsImpl;
 import com.example.demo.services.task.TaskService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,12 +29,16 @@ public class TaskController {
 
     @GetMapping
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('LOCAL_ADMIN') or hasRole('ADMIN')")
-    public List<Task> getList() {
-        return taskService.getList();
+    public List<Object> getList(
+            Authentication authentication
+    ) {
+        UserDetailsImpl currentUser = (UserDetailsImpl) authentication.getPrincipal();
+        System.out.println("Id пользователя: " + currentUser.getId());
+        return taskService.getList(currentUser);
     }
 
     @GetMapping("{id}")
-    @PreAuthorize("hasRole('LOCAL_ADMIN') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('LOCAL_ADMIN') or hasRole('ADMIN')")
     public Task getOne(
             @PathVariable("id") Task task
     ) {
@@ -43,7 +46,7 @@ public class TaskController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('LOCAL_ADMIN') or hasRole('ADMIN')")
     public ResponseEntity create(
             @RequestPart("properties") TaskRequest taskRequest,
             @AuthenticationPrincipal User user,

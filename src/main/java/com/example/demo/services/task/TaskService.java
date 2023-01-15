@@ -9,6 +9,7 @@ import com.example.demo.model.organization.Person;
 import com.example.demo.model.tasks.*;
 import com.example.demo.repository.organization.PersonRepository;
 import com.example.demo.repository.tasks.*;
+import com.example.demo.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +21,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,9 +47,11 @@ public class TaskService {
         this.taskFileRepository = taskFileRepository;
     }
 
-    public List<Task> getList() {
-        System.out.println(taskRepository.findAll().get(0).getId());
-        return taskRepository.findAll();
+    public List<Object> getList(UserDetailsImpl currentUser) {
+//        System.out.println(taskRepository.findAll().get(0).getId());
+        Optional<Person> person = personRepository.findById(currentUser.getId());
+        return taskRepository.findByPerson(person).stream().toList();
+//        return taskRepository.findAll();
     }
 
     private void saveUploadedFiles(List<MultipartFile> files, Long taskId) throws IOException {
@@ -114,13 +114,15 @@ public class TaskService {
         addExecutorTask(typeTask, newTask, executorTask);
 
         // Получить имя файла
-        String uploadedFileName = Arrays.stream(files).map(x -> x.getOriginalFilename())
-                .filter(x -> !StringUtils.isEmpty(x)).collect(Collectors.joining(" , "));
-        if (!StringUtils.isEmpty(uploadedFileName)) {
-            try {
-                saveUploadedFiles(Arrays.asList(files), newTask.getId());
-            } catch (IOException e) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (files != null) {
+            String uploadedFileName = Arrays.stream(files).map(x -> x.getOriginalFilename())
+                    .filter(x -> !StringUtils.isEmpty(x)).collect(Collectors.joining(" , "));
+            if (!StringUtils.isEmpty(uploadedFileName)) {
+                try {
+                    saveUploadedFiles(Arrays.asList(files), newTask.getId());
+                } catch (IOException e) {
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
             }
         }
         return ResponseEntity.ok(new MessageResponse("Задание создано!"));
